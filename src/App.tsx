@@ -1,6 +1,6 @@
 import { MainHeader } from "@/components/custom/Header/MainHeader";
 import { Toolbar } from "@/components/custom/Header/Toolbar";
-import Board from "./Pages/Board";
+import Board from "./components/custom/Board";
 
 export default function App() {
   return (
