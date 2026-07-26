@@ -1,0 +1,45 @@
+import { Card, CardDescription, CardTitle } from "@/components/ui/card";
+import type { PriorityId } from "@/lib/constants";
+import { MoreHorizontal } from "lucide-react";
+import Priority from "./Priority";
+
+interface TaskCardProps {
+  id: string;
+  title: string;
+  status: "todo" | "in_progress" | "in_review" | "done";
+  user_id: string;
+  created_at: string;
+  border_color: string;
+  description: string;
+  priority: PriorityId;
+}
+
+export default function TaskCard({
+  id,
+  title,
+  description,
+  status,
+  user_id,
+  created_at,
+  priority,
+  border_color,
+}: TaskCardProps) {
+  return (
+    <Card className="py-6 px-6 border-t-4" style={{ borderTopColor: border_color }}>
+      <div className="flex flex-row items-start text-primary gap-5 justify-between">
+        <CardTitle className="items-start flex-1">{title}</CardTitle>
+        <button className="rounded-full justify-end">
+          <MoreHorizontal className="size-5 flex-1 text-foreground" />
+        </button>
+      </div>
+      <CardDescription className="items-start">{description}</CardDescription>
+      <div className="flex flex-row items-center justify-between">
+        <div className="flex flex-row items-start gap-2">
+          <Priority priority={priority}></Priority>
+          <span>date</span>
+        </div>
+        <span>user</span>
+      </div>
+    </Card>
+  );
+}

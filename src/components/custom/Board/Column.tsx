@@ -1,5 +1,5 @@
-import {Car, Circle} from 'lucide-react'
-import {Card} from '@/components/ui/card'
+import {Circle} from 'lucide-react'
+import TaskCard from '@/components/custom/Board/TaskCard'
 
 export default function Column({ label }: { label: string }) {
   return (
@@ -10,7 +10,7 @@ export default function Column({ label }: { label: string }) {
         <Circle/>
         </div>
         <div className='flex items-center gap-3'>
-        <Card>Hi</Card>
+        <TaskCard id={''} title={''} status={'todo'} user_id={''} created_at={''} border_color={''} description={''} priority={'low'}></TaskCard>
 
         </div>
       </div>
