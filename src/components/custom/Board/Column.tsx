@@ -1,17 +1,26 @@
 import { Circle } from "lucide-react";
 import TaskCard from "@/components/custom/Board/TaskCard";
+import { useState } from "react";
 
 export default function Column({ label, status, tasks }: { label: string; status: string; tasks: any[] }) {
   const tasksInThisColumn = tasks.filter((t) => t.status === status);
 
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  function handleScroll(e: React.UIEvent<HTMLDivElement>) {
+    setIsScrolled(e.currentTarget.scrollTop > 0);
+  }
+
   return (
-    <div className="flex-1 max-w-[800px] flex flex-col h-full bg-card rounded-lg overflow-hidden">
-      <div className="flex items-center gap-3 px-6 py-6 shrink-0">
+    <div className="flex-1 max-w-[800px] flex flex-col h-full bg-card border border-1 shadow rounded-lg overflow-hidden">
+      <div className={`flex items-center gap-3 px-6 py-6 shrink-0 ${isScrolled ? "border-b border-border" : ""}`}>
         <span className="text-xl font-bold text-foreground">{label}</span>
         <Circle></Circle>
       </div>
 
-      <div className="flex-1 overflow-y-auto px-4 pb-4 flex flex-col gap-3">
+      <div 
+      onScroll={handleScroll}
+      className="flex-1 overflow-y-auto px-4 pb-4 flex flex-col gap-3">
         {tasksInThisColumn.map((task) => (
           <TaskCard
           key={task.id}

@@ -30,7 +30,7 @@ export default function TaskCard({
     done: "border-column-done",
   }[status];
   return (
-    <Card className={`py-3 gap-4 px-4 border-t-4 ${borderColorClass}`}>
+    <Card className={`shadow-md shrink-0 py-3 gap-4 px-4 border-t-4 ${borderColorClass}`}>
       <div className="flex flex-row items-center items-center text-primary gap-5 justify-between">
         <CardTitle className="items-start flex-1">{title}</CardTitle>
         <button className="rounded-full justify-end">
