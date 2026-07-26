@@ -1,3 +1,8 @@
+import { columnColorData, priorityColorData } from "./src/lib/theme-colors.js";
+
+const columnColors = Object.fromEntries(columnColorData.map((c) => [c.id, c.hex]));
+const priorityColors = Object.fromEntries(priorityColorData.map((p) => [p.id, p.hex]));
+
 /** @type {import('tailwindcss').Config} */
 export default {
   darkMode: ["class"],
@@ -40,6 +45,8 @@ export default {
         "input-background": "var(--input-background)",
         placeholder: "var(--placeholder)",
         ring: "var(--ring)",
+        column: columnColors,
+        priority: priorityColors,
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -60,8 +67,8 @@ export default {
         "display-lg": "var(--text-display-lg)",
         "display-xl": "var(--text-display-xl)",
         "display-2xl": "var(--text-display-2xl)",
-      }
+      },
     },
   },
   plugins: [],
-}
+};

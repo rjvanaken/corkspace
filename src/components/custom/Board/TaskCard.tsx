@@ -9,7 +9,6 @@ interface TaskCardProps {
   status: "todo" | "in_progress" | "in_review" | "done";
   user_id: string;
   created_at: string;
-  border_color: string;
   description: string;
   priority: PriorityId;
 }
@@ -22,10 +21,16 @@ export default function TaskCard({
   user_id,
   created_at,
   priority,
-  border_color,
 }: TaskCardProps) {
+
+    const borderColorClass = {
+    todo: "border-column-todo",
+    in_progress: "border-column-in_progress",
+    in_review: "border-column-in_review",
+    done: "border-column-done",
+  }[status];
   return (
-    <Card className="py-6 px-6 border-t-4" style={{ borderTopColor: border_color }}>
+    <Card className={`py-6 px-6 border-t-4 ${borderColorClass}`}>
       <div className="flex flex-row items-start text-primary gap-5 justify-between">
         <CardTitle className="items-start flex-1">{title}</CardTitle>
         <button className="rounded-full justify-end">

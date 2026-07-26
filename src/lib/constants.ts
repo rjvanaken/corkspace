@@ -1,10 +1,10 @@
 import { columnColorData, priorityColorData, categoricalColorData } from "./theme-colors.js";
 
 export type ColumnId = "todo" | "in_progress" | "in_review" | "done";
-export const Columns: { id: ColumnId; label: string; hex: string }[] = columnColorData;
+export const Columns = columnColorData as { id: ColumnId; label: string; hex: string }[];
 
 export type PriorityId = "low" | "normal" | "high";
-export const Priorities: { id: PriorityId; label: string; hex: string }[] = priorityColorData;
+export const Priorities = priorityColorData as { id: PriorityId; label: string; hex: string }[];
 
 export const CategoricalColors: string[] = categoricalColorData;
 
