@@ -1,7 +1,8 @@
 import { Card, CardDescription, CardTitle } from "@/components/ui/card";
 import type { PriorityId } from "@/lib/constants";
-import { MoreHorizontal } from "lucide-react";
+import { GripVertical, MoreHorizontal } from "lucide-react";
 import Priority from "./Priority";
+import { useDraggable } from "@dnd-kit/core";
 
 interface TaskCardProps {
   id: string;
@@ -11,6 +12,7 @@ interface TaskCardProps {
   created_at: string;
   description: string;
   priority: PriorityId;
+  isOverlay?: boolean;
 }
 
 export default function TaskCard({
@@ -21,17 +23,40 @@ export default function TaskCard({
   user_id,
   created_at,
   priority,
+  isOverlay = false,
 }: TaskCardProps) {
 
-    const borderColorClass = {
+  const borderColorClass = {
     todo: "border-column-todo",
     in_progress: "border-column-in_progress",
     in_review: "border-column-in_review",
     done: "border-column-done",
   }[status];
+
+  const draggable = useDraggable({ id: id });
+
+  //sets a transformation style used in the card if dragging
+  const style = !isOverlay && draggable.transform
+    ? {
+        transform: `translate3d(${draggable.transform.x}px, ${draggable.transform.y}px, 0)`,
+        opacity: draggable.isDragging ? 0.9 : 1,
+      }
+    : undefined;
+
   return (
-    <Card className={`shadow-md shrink-0 py-3 gap-4 px-4 border-t-4 ${borderColorClass}`}>
-      <div className="flex flex-row items-center items-center text-primary gap-5 justify-between">
+    <Card
+      ref={isOverlay ? undefined : draggable.setNodeRef}
+      style={style}
+      className={`shadow-md shrink-0 py-3 gap-4 px-4 border-t-4 ${borderColorClass} ${isOverlay ? "shadow-xl" : ""}`}
+    >
+      <div className="flex flex-row items-center gap-2 text-primary justify-between">
+        <button
+          {...(isOverlay ? {} : draggable.listeners)}
+          {...(isOverlay ? {} : draggable.attributes)}
+          className="cursor-grab active:cursor-grabbing text-muted-foreground hover:text-foreground"
+        >
+          <GripVertical className="size-4" />
+        </button>
         <CardTitle className="items-start flex-1">{title}</CardTitle>
         <button className="rounded-full justify-end">
           <MoreHorizontal className="size-5 flex-1 text-foreground" />
