@@ -1,25 +1,17 @@
-export const Columns = [
-  { id: "todo", label: "To Do", hex: "#7C8B90" },
-  { id: "in_progress", label: "In Progress", hex: "#5B7FA6" },
-  { id: "in_review", label: "In Review", hex: "#8A6FB0" },
-  { id: "done", label: "Done", hex: "#2F6F62" },
-] as const;
+import { columnColorData, priorityColorData, categoricalColorData } from "./theme-colors.js";
 
-export type ColumnId = (typeof Columns)[number]["id"];
+export type ColumnId = "todo" | "in_progress" | "in_review" | "done";
+export const Columns: { id: ColumnId; label: string; hex: string }[] = columnColorData;
 
-export const Priorities = [
-  { id: "low", label: "Low", hex: "#6B9B7A" },
-  { id: "normal", label: "Normal", hex: "#E8A33D" },
-  { id: "high", label: "High", hex: "#C4503F" },
-] as const;
+export type PriorityId = "low" | "normal" | "high";
+export const Priorities: { id: PriorityId; label: string; hex: string }[] = priorityColorData;
 
-export type PriorityId = (typeof Priorities)[number]["id"];
+export const CategoricalColors: string[] = categoricalColorData;
 
-export const CategoricalColors = [
-  "#B0824A",
-  "#C97AA0",
-  "#8FA05C",
-  "#A15D42",
-  "#5C9EA3",
-  "#7A5C8A",
-] as const;
+export function colorForGuestIndex(index: number): string {
+  return CategoricalColors[index % CategoricalColors.length];
+}
+
+export function fadedColor(hex: string, alpha: string = "22"): string {
+  return `${hex}${alpha}`;
+}
