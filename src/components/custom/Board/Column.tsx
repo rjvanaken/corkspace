@@ -14,14 +14,14 @@ export default function Column({ label, status, tasks }: { label: string; status
       <div className="flex-1 overflow-y-auto px-4 pb-4 flex flex-col gap-3">
         {tasksInThisColumn.map((task) => (
           <TaskCard
-            key={task.id}
-            id={task.id}
-            title={task.title}
-            status={task.status}
-            priority={task.priority}
-            description={task.description}
-            user_id={task.user_id}
-            created_at={task.created_at}
+          key={task.id}
+          id={task.id}
+          title={task.title}
+          status={task.status}
+          priority={task.priority}
+          description={task.description}
+          user_id={task.user_id}
+          created_at={task.created_at}
           ></TaskCard>
         ))}
       </div>
