@@ -4,6 +4,7 @@ import TaskCard from "@/components/custom/Board/TaskCard";
 import { supabase } from "@/lib/supabaseClient";
 import { useEffect, useState } from "react";
 import { DndContext, DragOverlay, type DragEndEvent, type DragStartEvent } from "@dnd-kit/core";
+import TaskModal from "./Board/TaskModal";
 
 
 const todo = Columns.find((c) => c.id === "todo")!;
@@ -84,8 +85,9 @@ export default function Board() {
     return <div className="flex-1 flex items-center justify-center text-muted-foreground text-sm">Loading...</div>;
   }
 
+  
   return (
-  <DndContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
+    <DndContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
     <div className="flex-1 flex justify-center h-screen overflow-hidden bg-background p-4">
       <div className="w-full max-w-[1500px] flex gap-6 rounded-lg">
         <Column label="To Do" status={todo.id} tasks={tasks}></Column>
@@ -98,14 +100,14 @@ export default function Board() {
     <DragOverlay>
       {activeTask ? (
         <TaskCard
-          id={activeTask.id}
-          title={activeTask.title}
-          status={activeTask.status}
-          priority={activeTask.priority}
-          description={activeTask.description}
-          user_id={activeTask.user_id}
-          created_at={activeTask.created_at}
-          isOverlay
+        id={activeTask.id}
+        title={activeTask.title}
+        status={activeTask.status}
+        priority={activeTask.priority}
+        description={activeTask.description}
+        user_id={activeTask.user_id}
+        created_at={activeTask.created_at}
+        isOverlay
         ></TaskCard>
       ) : null}
     </DragOverlay>
