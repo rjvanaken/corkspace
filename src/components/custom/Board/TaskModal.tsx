@@ -20,13 +20,20 @@ interface Task {
 }
 
 
-export default function TaskModal() {
+export default function TaskModal({
+    open,
+  onOpenChange,
+  onSaved,
+}:{
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  onSaved: (task: any) => void;
+
+}) {
 
   
   
   
-  const [open, setOpen] = useState(false);
-  const [tasks, setTasks] = useState<Task[]>([]);
   const [priority, setPriority] = useState<PriorityId>("normal");
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -54,12 +61,12 @@ export default function TaskModal() {
           }
 
 
-          setTasks((current) => [...current, data]);
+          onSaved(data);
           setTitle("");
           setDescription("");
           setPriority("normal");
           // TODO: add the rest later
-          setOpen(false);
+          onOpenChange(false);
       }
 
 
@@ -68,14 +75,8 @@ export default function TaskModal() {
   return (
     <>
 
-<button onClick={() => setOpen(true)} className="flex items-center gap-1.5 rounded-md bg-secondary text-secondary-foreground px-3 py-1.5 text-sm font-medium hover:opacity-90 transition-opacity">
-          <Plus size={14} />
-          New Task
-        </button>
 
-
-
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="pb-7 flex-col gap-8">
         <DialogHeader className="flex flex-row items-center justify-between">
           <DialogTitle className="text-xl font-bold text-foreground">New Task</DialogTitle>
@@ -122,7 +123,7 @@ export default function TaskModal() {
   className="flex-1"
   size="lg"
   variant="outline"
-  onClick={() => setOpen(false)}
+  onClick={() => onOpenChange(false)}
 >
   Cancel
 </Button>
