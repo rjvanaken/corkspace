@@ -22,6 +22,7 @@
     --secondary: #3D2E42;
     --secondary-foreground: #EDEFEA;
     --muted: #F1EFE6;
+    --button: 27 42 46;
     --muted-foreground: #5F6E72;
     --accent: #F1EFE6;
     --accent-foreground: #1B2A2E;
@@ -45,6 +46,7 @@
     --text-xl: 1.25rem;
     --text-lg: 1.125rem;
     --text-md: 1rem;
+    --text-smmd: 0.95rem;
     --text-sm: 0.875rem;
     --text-xs: 0.75rem;
     --text-xxs: 0.65rem;

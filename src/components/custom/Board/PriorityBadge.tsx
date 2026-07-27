@@ -13,7 +13,7 @@ export default function PriorityBadge({ priority, selectedPriority, onSelect }: 
   return (
     <button onClick={() => onSelect(priority)} className="flex-1">
       <div
-        className="bg-card rounded-lg py-3 flex flex-col items-center gap-2 shadow-sm border"
+        className="bg-card rounded-lg py-2.5 flex flex-col items-center gap-2 shadow-sm border"
         style={{
           backgroundColor: selected && match ? fadedColor(match.hex) : undefined,
           borderColor: selected ? match?.hex : undefined,

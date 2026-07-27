@@ -8,7 +8,7 @@ export function MainHeader() {
       {/* TODO: If time allows, set breakpoints to turn into the C logo to avoid team collision */}
 
       <div className="h-8 px-3 rounded-full bg-muted text-muted-foreground text-xs flex items-center">
-        Team roster (placeholder)
+        Search (placeholder)
       </div>
     </header>
   );
