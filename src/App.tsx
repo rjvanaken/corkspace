@@ -25,6 +25,24 @@ export default function App() {
   
   // load data for the card
   useEffect(() => {
+      // make sure we have a signed-in (possibly anonymous) user before touching any tables
+      async function ensureSession() {
+        const { data: sessionData } = await supabase.auth.getSession();
+
+        if (sessionData.session) {
+          return true;
+        }
+
+        const { error } = await supabase.auth.signInAnonymously();
+
+        if (error) {
+          console.log("guest sign-in error:", error);
+          return false;
+        }
+
+        return true;
+      }
+
       // get user's labels, on startup add labels to database
       async function loadLabels() {
         const { data, error } = await supabase.from("labels").select("*");
@@ -54,19 +72,6 @@ export default function App() {
       }
 
       async function loadTasks() {
-        let { data: sessionData } = await supabase.auth.getSession();
-
-        if (!sessionData.session) {
-          const { data: signInData, error } = await supabase.auth.signInAnonymously();
-
-          if (error) {
-            console.log("guest sign-in error:", error);
-            setLoading(false);
-            return;
-          }
-          sessionData = { session: signInData.session };
-        }
-
         const { data, error } = await supabase.from("tasks").select("*, task_labels(label_id)");
 
         if (error) {
@@ -78,11 +83,22 @@ export default function App() {
           }));
           setTasks(withLabelIds);
         }
+      }
+
+      async function init() {
+        const signedIn = await ensureSession();
+
+        if (!signedIn) {
+          setLoading(false);
+          return;
+        }
+
+        setLabels(await loadLabels());
+        await loadTasks();
         setLoading(false);
       }
 
-      loadLabels().then(setLabels);
-      loadTasks();
+      init();
     }, []);
 
     
@@ -99,7 +115,8 @@ if (loading) {
       <main className="flex-1 flex items-center justify-center text-muted-foreground text-sm">
         <Board userLabels={labels} tasks={filteredTasks} setTasks={setTasks} onEditTask={setEditingTask}></Board>
       </main>
-      <TaskModal 
+      <TaskModal
+        userLabels={labels}
         open={isModalOpen || !!editingTask}
         onOpenChange={(open) => {setIsModalOpen(open); if (!open) setEditingTask(null);}} 
         onSaved={(savedTask) =>

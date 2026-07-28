@@ -7,6 +7,7 @@ import PriorityBadge from "./PriorityBadge";
 import { Priorities, type PriorityId } from "@/lib/constants";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/lib/supabaseClient";
+import LabelPicker from "./LabelPicker";
 
 interface Task {
     id: string;
@@ -16,6 +17,7 @@ interface Task {
     description: string;
     user_id: string;
     created_at: string;
+    labelIds: string[];
 }
 
 
@@ -24,21 +26,32 @@ export default function TaskModal({
   onOpenChange,
   onSaved,
   task,
+  userLabels,
 }:{
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onSaved: (task: any) => void;
   task?: Task;
+  userLabels: any[];
 
 }) {
 
-  
-  
+
+
   // pre-populate the form - empty for new task, filled for edit
   const [priority, setPriority] = useState<PriorityId>(task?.priority ?? "normal");
   const isEditMode = !!task;
   const [title, setTitle] = useState(task?.title ?? "");
   const [description, setDescription] = useState(task?.description ?? "");
+  const [selectedLabelIds, setSelectedLabelIds] = useState<string[]>(task?.labelIds ?? []);
+
+  function handleToggleLabel(labelId: string) {
+    setSelectedLabelIds((current) =>
+      current.includes(labelId)
+        ? current.filter((id) => id !== labelId)
+        : [...current, labelId]
+    );
+  }
 
   // reset fields on close
   useEffect(() => {
@@ -46,6 +59,7 @@ export default function TaskModal({
     setTitle("");
     setDescription("");
     setPriority("normal");
+    setSelectedLabelIds([]);
   }
 }, [open]);
 
@@ -55,6 +69,7 @@ export default function TaskModal({
       setTitle(task?.title ?? "");
       setDescription(task?.description ?? "");
       setPriority(task?.priority ?? "normal");
+      setSelectedLabelIds(task?.labelIds ?? []);
     }
   }, [open, task]);
   
@@ -92,11 +107,29 @@ export default function TaskModal({
               return;
           }
 
+          const taskId = data.id;
 
-          onSaved(data);
+          if (isEditMode) {
+            const { error: clearError } = await supabase.from("task_labels").delete().eq("task_id", taskId);
+            if (clearError) {
+              console.log("label clear error:", clearError);
+            }
+          }
+
+          if (selectedLabelIds.length > 0) {
+            const { error: labelError } = await supabase
+              .from("task_labels")
+              .insert(selectedLabelIds.map((labelId) => ({ task_id: taskId, label_id: labelId })));
+            if (labelError) {
+              console.log("label save error:", labelError);
+            }
+          }
+
+          onSaved({ ...data, labelIds: selectedLabelIds });
           setTitle("");
           setDescription("");
           setPriority("normal");
+          setSelectedLabelIds([]);
           // TODO: add the rest later
           onOpenChange(false);
       }
@@ -148,7 +181,15 @@ export default function TaskModal({
             ></PriorityBadge>
           ))}
         </div>
-</div>   
+</div>
+     <div className="gap-2 flex-col flex">
+        <p className="font-medium text-muted-foreground">LABELS</p>
+        <LabelPicker
+          userLabels={userLabels}
+          selectedLabelIds={selectedLabelIds}
+          onToggle={handleToggleLabel}
+        ></LabelPicker>
+     </div>
 </div>
         <div className="flex flex-row flex-1 w-full gap-3.5">
 <Button

@@ -75,9 +75,7 @@ export default function TaskCard({
         </button>
       </div>
       <CardDescription style={{ fontSize: "13px", fontWeight: 400 }} className=" w-full items-start">{description}</CardDescription>
-      <div className="flex flex-row items-center justify-between">
-        <div className="flex flex-row items-start gap-2">
-          <div>
+          <div className="flex flex-row flex-wrap pb-1 gap-1.5">
                       {matchedLabels.map((label) => (
                         <CardLabel 
                         key={label.id}
@@ -86,6 +84,8 @@ export default function TaskCard({
                         </CardLabel>
                       ))}
           </div>
+      <div className="flex flex-row items-center justify-between">
+        <div className="flex flex-row items-start gap-2">
           <Priority priority={priority}></Priority>
           <span>date</span>
         </div>
