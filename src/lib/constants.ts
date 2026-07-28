@@ -8,7 +8,7 @@ export const Priorities = priorityColorData as { id: PriorityId; label: string; 
 
 export const CategoricalColors: string[] = categoricalColorData;
 
-export function colorForGuestIndex(index: number): string {
+export function colorForIndex(index: number): string {
   return CategoricalColors[index % CategoricalColors.length];
 }
 

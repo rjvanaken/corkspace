@@ -3,6 +3,7 @@ import type { PriorityId } from "@/lib/constants";
 import { GripVertical, MoreHorizontal } from "lucide-react";
 import Priority from "./Priority";
 import { useDraggable } from "@dnd-kit/core";
+import CardLabel from "./CardLabel";
 
 interface TaskCardProps {
   id: string;
@@ -13,6 +14,8 @@ interface TaskCardProps {
   description: string;
   priority: PriorityId;
   isOverlay?: boolean;
+  userLabels: any[];
+  labelIds : any[];
   onEditClick: () => void ;
 }
 
@@ -25,6 +28,8 @@ export default function TaskCard({
   created_at,
   priority,
   isOverlay = false,
+  userLabels,
+  labelIds,
   onEditClick,
 }: TaskCardProps) {
 
@@ -44,6 +49,11 @@ export default function TaskCard({
         opacity: draggable.isDragging ? 0.9 : 1,
       }
     : undefined;
+
+
+  const matchedLabels = labelIds
+    .map((id) => userLabels.find((l) => l.id === id))
+    .filter(Boolean);
 
   return (
     <Card
@@ -67,6 +77,15 @@ export default function TaskCard({
       <CardDescription style={{ fontSize: "13px", fontWeight: 400 }} className=" w-full items-start">{description}</CardDescription>
       <div className="flex flex-row items-center justify-between">
         <div className="flex flex-row items-start gap-2">
+          <div>
+                      {matchedLabels.map((label) => (
+                        <CardLabel 
+                        key={label.id}
+                        labelText={label.name} 
+                        colorLabel={label.color}>
+                        </CardLabel>
+                      ))}
+          </div>
           <Priority priority={priority}></Priority>
           <span>date</span>
         </div>

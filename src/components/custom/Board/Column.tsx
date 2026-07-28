@@ -5,7 +5,7 @@ import { Columns, fadedColorSlight } from "@/lib/constants";
 
 // inside Column, using status to find the matching column's hex
 
-export default function Column({ label, status, tasks, onEditTask,}: { label: string; status: string; tasks: any[]; onEditTask: (task: any) => void}) {
+export default function Column({ label, status, tasks, onEditTask, userLabels}: { label: string; status: string; tasks: any[]; onEditTask: (task: any) => void; userLabels : any[]}) {
   const tasksInThisColumn = tasks.filter((t) => t.status === status);
   const countForColumn = tasks.filter((t) => t.status === status).length;
   
@@ -50,6 +50,8 @@ export default function Column({ label, status, tasks, onEditTask,}: { label: st
           description={task.description}
           user_id={task.user_id}
           created_at={task.created_at}
+          userLabels={userLabels}
+          labelIds={task.labelIds}
           onEditClick={() => onEditTask(task)}
           ></TaskCard>
         ))}

@@ -11,7 +11,7 @@ const inProgress = Columns.find((c) => c.id === "in_progress")!;
 const inReview = Columns.find((c) => c.id === "in_review")!;
 const done = Columns.find((c) => c.id === "done")!;
 
-export default function Board({ tasks, setTasks, onEditTask}: { tasks: any[]; setTasks: (tasks: any[] | ((current: any[]) => any[])) => void; onEditTask: (task: any) => void }) {
+export default function Board({ tasks, setTasks, onEditTask, userLabels}: { tasks: any[]; setTasks: (tasks: any[] | ((current: any[]) => any[])) => void; onEditTask: (task: any) => void; userLabels: any[]}) {
 
 
   const [activeTask, setActiveTask] = useState<any>(null);
@@ -55,10 +55,16 @@ export default function Board({ tasks, setTasks, onEditTask}: { tasks: any[]; se
     <DndContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
     <div className="flex-1 flex justify-center h-screen overflow-hidden bg-background p-4">
       <div className="w-full flex-1 flex gap-6 rounded-lg">
-        <Column label="To Do" status={todo.id} tasks={tasks} onEditTask={onEditTask}></Column>
-        <Column label="In Progress" status={inProgress.id} tasks={tasks} onEditTask={onEditTask}></Column>
-        <Column label="In Review" status={inReview.id} tasks={tasks} onEditTask={onEditTask}></Column>
-        <Column label="Done" status={done.id} tasks={tasks} onEditTask={onEditTask}></Column>
+            {Columns.map((col) => (
+              <Column
+                key={col.id}
+                label={col.label}
+                status={col.id}
+                tasks={tasks}
+                userLabels={userLabels}
+                onEditTask={onEditTask}
+              ></Column>
+            ))}
       </div>
     </div>
 
@@ -73,6 +79,8 @@ export default function Board({ tasks, setTasks, onEditTask}: { tasks: any[]; se
         description={activeTask.description}
         user_id={activeTask.user_id}
         created_at={activeTask.created_at}
+        userLabels={userLabels}
+        labelIds={activeTask.labelIds}
         isOverlay
         onEditClick={() => {}}
         ></TaskCard>

@@ -4,7 +4,9 @@ import Board from "./components/custom/Board";
 import { useEffect, useState } from "react";
 import TaskModal from "./components/custom/Board/TaskModal";
 import { supabase } from "./lib/supabaseClient";
+import { colorForIndex } from "./lib/constants";
 
+const DEFAULT_LABEL_NAMES = ["Bug", "Feature", "Design", "Task"];
 
 export default function App() {
 
@@ -12,6 +14,7 @@ export default function App() {
   const [editingTask, setEditingTask] = useState<any>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [tasks, setTasks] = useState<any[]>([]);
+  const [labels, setLabels] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   // filter the tasks 
@@ -22,6 +25,34 @@ export default function App() {
   
   // load data for the card
   useEffect(() => {
+      // get user's labels, on startup add labels to database
+      async function loadLabels() {
+        const { data, error } = await supabase.from("labels").select("*");
+
+        if (error) {
+          console.log("labels fetch error:", error);
+          return [];
+        }
+
+        if (data && data.length > 0) {
+          return data;
+        }
+
+        const seeds = DEFAULT_LABEL_NAMES.map((name, index) => ({
+          name,
+          color: colorForIndex(index),
+        }));
+
+        const { data: seeded, error: seedError } = await supabase.from("labels").insert(seeds).select();
+
+        if (seedError) {
+          console.log("labels seed error:", seedError);
+          return [];
+        }
+
+        return seeded ?? [];
+      }
+
       async function loadTasks() {
         let { data: sessionData } = await supabase.auth.getSession();
 
@@ -36,16 +67,21 @@ export default function App() {
           sessionData = { session: signInData.session };
         }
 
-        const { data, error } = await supabase.from("tasks").select("*");
+        const { data, error } = await supabase.from("tasks").select("*, task_labels(label_id)");
 
         if (error) {
           console.log("fetch error:", error);
         } else {
-          setTasks(data ?? []);
+          const withLabelIds = (data ?? []).map((task: any) => ({
+            ...task,
+            labelIds: (task.task_labels ?? []).map((tl: any) => tl.label_id),
+          }));
+          setTasks(withLabelIds);
         }
         setLoading(false);
       }
 
+      loadLabels().then(setLabels);
       loadTasks();
     }, []);
 
@@ -61,7 +97,7 @@ if (loading) {
       <MainHeader searchQuery={searchQuery} onSearchChange={setSearchQuery}></MainHeader>
       <Toolbar onNewTaskClick={() => setIsModalOpen(true)}></Toolbar>
       <main className="flex-1 flex items-center justify-center text-muted-foreground text-sm">
-        <Board tasks={filteredTasks} setTasks={setTasks} onEditTask={setEditingTask}></Board>
+        <Board userLabels={labels} tasks={filteredTasks} setTasks={setTasks} onEditTask={setEditingTask}></Board>
       </main>
       <TaskModal 
         open={isModalOpen || !!editingTask}
