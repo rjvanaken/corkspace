@@ -3,6 +3,7 @@ import type { PriorityId } from "@/lib/constants";
 import { GripVertical, MoreHorizontal } from "lucide-react";
 import Priority from "./Priority";
 import { useDraggable } from "@dnd-kit/core";
+import { useState } from "react";
 import CardLabel from "./CardLabel";
 import {
   DropdownMenu,
@@ -10,6 +11,14 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
 
 interface TaskCardProps {
   id: string;
@@ -63,6 +72,8 @@ export default function TaskCard({
     .map((id) => userLabels.find((l) => l.id === id))
     .filter(Boolean);
 
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+
   return (
     <Card
       ref={isOverlay ? undefined : draggable.setNodeRef}
@@ -86,9 +97,39 @@ export default function TaskCard({
           } />
           <DropdownMenuContent className="hover:neutral-300/20 active:neutral-400 w-32 ring-0 border bg-card border-border">
             <DropdownMenuItem onClick={onEditClick}>Edit</DropdownMenuItem>
-            <DropdownMenuItem variant="destructive" onClick={onDeleteClick}>Delete</DropdownMenuItem>
+            <DropdownMenuItem variant="destructive" onClick={() => setShowDeleteConfirm(true)}>Delete</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
+        <Dialog open={showDeleteConfirm} onOpenChange={setShowDeleteConfirm}>
+          <DialogContent className="pb-7 flex-col gap-8">
+            <DialogHeader className="flex flex-row items-center justify-between">
+              <DialogTitle className="text-xl font-bold text-foreground">Delete Task</DialogTitle>
+              <DialogClose className="h-5 w-auto"></DialogClose>
+            </DialogHeader>
+            <p className="text-muted-foreground">
+              This will permanently delete "{title}" 
+            </p>
+            <div className="flex flex-row flex-1 w-full gap-3.5 items-center">
+              <Button
+                className="flex-1"
+                size="lg"
+                variant="outline"
+                onClick={() => setShowDeleteConfirm(false)}
+              >
+                Cancel
+              </Button>
+              <Button
+                className="flex-1 px-4 bg-red-800 hover:bg-red-800/80 transition-colors"
+                size="lg"
+                onClick={() => {
+                  setShowDeleteConfirm(false);
+                  onDeleteClick();
+                }}>
+                Delete
+              </Button>
+            </div>
+          </DialogContent>
+        </Dialog>
       </div>
       <CardDescription style={{ fontSize: "13px", fontWeight: 400 }} className=" w-full items-start">{description}</CardDescription>
           <div className="flex flex-row flex-wrap pb-1 gap-1.5">
@@ -110,3 +151,9 @@ export default function TaskCard({
     </Card>
   );
 }
+
+
+
+
+
+

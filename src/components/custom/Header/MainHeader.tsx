@@ -11,7 +11,7 @@ export function MainHeader({ searchQuery, onSearchChange }: { searchQuery: strin
 <div className="flex w-1/4 flex-row">
   <Input icon={<Search size={14} />}
         className="bg-card"
-        placeholder="Search for a task"
+        placeholder="Search for a task or label"
         value={searchQuery}
         onChange={(e) => onSearchChange(e.target.value)}
         ></Input>

@@ -10,7 +10,6 @@ export default function Toolbar({ onNewTaskClick }: { onNewTaskClick: () => void
 
       <div className="flex items-center gap-2">
         <div className="h-8 px-3 text-muted-foreground text-sm flex items-center">
-          Filter (placeholder)
         </div>
 
               <Button

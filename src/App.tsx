@@ -15,10 +15,15 @@ export default function App() {
   const [loading, setLoading] = useState(true);
 
   // filter the tasks 
-  const filteredTasks = tasks.filter((t) =>
-  t.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-  t.description?.toLowerCase().includes(searchQuery.toLowerCase())
-);
+const filteredTasks = tasks.filter((t) => {
+  const query = searchQuery.toLowerCase();
+  const matchesTitle = t.title.toLowerCase().includes(query);
+  const matchesLabel = (t.labelIds ?? []).some((labelId: any) => {
+    const label = labels.find((l) => l.id === labelId);
+    return label?.name.toLowerCase().includes(query);
+  });
+  return matchesTitle || matchesLabel;
+});
   
   // load data for the card
   useEffect(() => {
