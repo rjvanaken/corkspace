@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 
 export default function Toolbar({ onNewTaskClick }: { onNewTaskClick: () => void }) {
@@ -12,10 +13,14 @@ export default function Toolbar({ onNewTaskClick }: { onNewTaskClick: () => void
           Filter (placeholder)
         </div>
 
-      <button onClick={onNewTaskClick} className="flex items-center gap-1.5 rounded-md bg-primary text-secondary-foreground px-3 py-1.5 text-sm font-medium hover:opacity-90 transition-opacity">
-                <Plus size={14} />
-                New Task
-              </button>
+              <Button
+  className="flex-1 px-4 bg-button hover:bg-button/80 transition-colors"
+  size="lg"
+  onClick={onNewTaskClick}
+>
+  <Plus size={14} />
+  New Task
+</Button>
 
 
       </div>
