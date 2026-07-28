@@ -10,9 +10,15 @@ export default function App() {
 
   const[isModalOpen, setIsModalOpen] = useState(false);
   const [editingTask, setEditingTask] = useState<any>(null);
-  
+  const [searchQuery, setSearchQuery] = useState("");
   const [tasks, setTasks] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+
+  // filter the tasks 
+  const filteredTasks = tasks.filter((t) =>
+  t.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+  t.description?.toLowerCase().includes(searchQuery.toLowerCase())
+);
   
   // load data for the card
   useEffect(() => {
@@ -52,10 +58,10 @@ if (loading) {
 
   return (
     <div className="h-screen bg-background text-foreground flex flex-col">
-      <MainHeader></MainHeader>
+      <MainHeader searchQuery={searchQuery} onSearchChange={setSearchQuery}></MainHeader>
       <Toolbar onNewTaskClick={() => setIsModalOpen(true)}></Toolbar>
       <main className="flex-1 flex items-center justify-center text-muted-foreground text-sm">
-        <Board tasks={tasks} setTasks={setTasks} onEditTask={setEditingTask}></Board>
+        <Board tasks={filteredTasks} setTasks={setTasks} onEditTask={setEditingTask}></Board>
       </main>
       <TaskModal 
         open={isModalOpen || !!editingTask}

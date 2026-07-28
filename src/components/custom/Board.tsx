@@ -51,10 +51,10 @@ export default function Board({ tasks, setTasks, onEditTask}: { tasks: any[]; se
 
   
   return (
-    <div>
+    <div className="w-full max-w-[1650px]">
     <DndContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
     <div className="flex-1 flex justify-center h-screen overflow-hidden bg-background p-4">
-      <div className="w-full flex-1 max-w-[1500px] flex gap-6 rounded-lg">
+      <div className="w-full flex-1 flex gap-6 rounded-lg">
         <Column label="To Do" status={todo.id} tasks={tasks} onEditTask={onEditTask}></Column>
         <Column label="In Progress" status={inProgress.id} tasks={tasks} onEditTask={onEditTask}></Column>
         <Column label="In Review" status={inReview.id} tasks={tasks} onEditTask={onEditTask}></Column>

@@ -28,12 +28,12 @@ export default function TaskCard({
   onEditClick,
 }: TaskCardProps) {
 
-  const borderColorClass = {
-    todo: "border-column-todo",
-    in_progress: "border-column-in_progress",
-    in_review: "border-column-in_review",
-    done: "border-column-done",
-  }[status];
+  // const borderColorClass = {
+  //   todo: "border-column-todo",
+  //   in_progress: "border-column-in_progress",
+  //   in_review: "border-column-in_review",
+  //   done: "border-column-done",
+  // }[status];
 
   const draggable = useDraggable({ id: id });
 
@@ -52,19 +52,19 @@ export default function TaskCard({
       className={`shadow shrink-0 min-w-0 py-3 w-full gap-4 px-4 border border-neutral-300 ${isOverlay ? "shadow-xl" : ""}`}
     >
       <div className="flex flex-row items-center w-full gap-2 text-primary justify-between">
-        <button
+  <button
           {...(isOverlay ? {} : draggable.listeners)}
           {...(isOverlay ? {} : draggable.attributes)}
           className="cursor-grab active:cursor-grabbing text-muted-foreground hover:text-foreground"
         >
           <GripVertical className="size-4" />
         </button>
-        <CardTitle className="items-start flex-1">{title}</CardTitle>
+        <CardTitle style={{ fontSize: "15px", fontWeight: 500, lineHeight: 1.0 }} className="items-start flex-1">{title}</CardTitle>
         <button className="rounded-full justify-end">
           <MoreHorizontal onClick={onEditClick} className="size-5 flex-1 text-foreground" />
         </button>
       </div>
-      <CardDescription className=" w-full items-start">{description}</CardDescription>
+      <CardDescription style={{ fontSize: "13px", fontWeight: 400 }} className=" w-full items-start truncate">{description}</CardDescription>
       <div className="flex flex-row items-center justify-between">
         <div className="flex flex-row items-start gap-2">
           <Priority priority={priority}></Priority>
