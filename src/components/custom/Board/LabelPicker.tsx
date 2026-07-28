@@ -47,7 +47,7 @@ export default function LabelPicker({
                             key={label.id}
                             checked={selectedLabelIds.includes(label.id)}
                             onCheckedChange={() => onToggle(label.id)}
-                            className="hover:bg-neutral-500/30"
+                            className="hover:bg-neutral-500/30 cursor-pointer"
                         >
                             {label.name}
                         </DropdownMenuCheckboxItem>

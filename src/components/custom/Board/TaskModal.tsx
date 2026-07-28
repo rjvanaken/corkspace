@@ -191,7 +191,7 @@ export default function TaskModal({
         ></LabelPicker>
      </div>
 </div>
-        <div className="flex flex-row flex-1 w-full gap-3.5 items-center">
+        <div className="flex flex-rowflex-1 h-10 w-full gap-3.5 items-center">
 <Button
   className="flex-1"
   size="lg"
@@ -202,7 +202,7 @@ export default function TaskModal({
 </Button>
 
 <Button
-  className="flex-1 bg-button hover:bg-button/80 transition-colors"
+  className="flex-1 py-2 h-full bg-button hover:bg-button/80 transition-colors"
   size="lg"
   disabled={!title.trim()}
   onClick={() => handleSave()}

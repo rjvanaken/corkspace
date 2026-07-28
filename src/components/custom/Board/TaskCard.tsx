@@ -84,7 +84,7 @@ export default function TaskCard({
               <MoreHorizontal className="size-5 flex-1 text-foreground" />
             </button>
           } />
-          <DropdownMenuContent className="w-32 ring-0 border bg-card border-border">
+          <DropdownMenuContent className="hover:neutral-300/20 active:neutral-400 w-32 ring-0 border bg-card border-border">
             <DropdownMenuItem onClick={onEditClick}>Edit</DropdownMenuItem>
             <DropdownMenuItem variant="destructive" onClick={onDeleteClick}>Delete</DropdownMenuItem>
           </DropdownMenuContent>
