@@ -14,4 +14,9 @@ export function colorForGuestIndex(index: number): string {
 
 export function fadedColor(hex: string, alpha: string = "22"): string {
   return `${hex}${alpha}`;
+  
+}
+
+export function fadedColorSlight(hex: string, alpha: string = "90"): string {
+  return `${hex}${alpha}`;
 }

@@ -49,9 +49,9 @@ export default function TaskCard({
     <Card
       ref={isOverlay ? undefined : draggable.setNodeRef}
       style={style}
-      className={`shadow-md shrink-0 py-3 gap-4 px-4 border-t-4 ${borderColorClass} ${isOverlay ? "shadow-xl" : ""}`}
+      className={`shadow-md shrink-0 min-w-0 py-3 w-full gap-4 px-4 border-t-4 ${borderColorClass} ${isOverlay ? "shadow-xl" : ""}`}
     >
-      <div className="flex flex-row items-center gap-2 text-primary justify-between">
+      <div className="flex flex-row items-center w-full gap-2 text-primary justify-between">
         <button
           {...(isOverlay ? {} : draggable.listeners)}
           {...(isOverlay ? {} : draggable.attributes)}
@@ -64,7 +64,7 @@ export default function TaskCard({
           <MoreHorizontal onClick={onEditClick} className="size-5 flex-1 text-foreground" />
         </button>
       </div>
-      <CardDescription className="items-start">{description}</CardDescription>
+      <CardDescription className=" w-full items-start">{description}</CardDescription>
       <div className="flex flex-row items-center justify-between">
         <div className="flex flex-row items-start gap-2">
           <Priority priority={priority}></Priority>
