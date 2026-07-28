@@ -2,9 +2,8 @@ import { Columns } from "@/lib/constants";
 import Column from "./Board/Column";
 import TaskCard from "@/components/custom/Board/TaskCard";
 import { supabase } from "@/lib/supabaseClient";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { DndContext, DragOverlay, type DragEndEvent, type DragStartEvent } from "@dnd-kit/core";
-import TaskModal from "./Board/TaskModal";
 
 
 const todo = Columns.find((c) => c.id === "todo")!;
@@ -12,10 +11,11 @@ const inProgress = Columns.find((c) => c.id === "in_progress")!;
 const inReview = Columns.find((c) => c.id === "in_review")!;
 const done = Columns.find((c) => c.id === "done")!;
 
-export default function Board({ tasks, setTasks }: { tasks: any[]; setTasks: (tasks: any[] | ((current: any[]) => any[])) => void }) {
+export default function Board({ tasks, setTasks, onEditTask}: { tasks: any[]; setTasks: (tasks: any[] | ((current: any[]) => any[])) => void; onEditTask: (task: any) => void }) {
 
 
   const [activeTask, setActiveTask] = useState<any>(null);
+
 
 
   // drag start
@@ -55,13 +55,14 @@ export default function Board({ tasks, setTasks }: { tasks: any[]; setTasks: (ta
     <DndContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
     <div className="flex-1 flex justify-center h-screen overflow-hidden bg-background p-4">
       <div className="w-full max-w-[1500px] flex gap-6 rounded-lg">
-        <Column label="To Do" status={todo.id} tasks={tasks}></Column>
-        <Column label="In Progress" status={inProgress.id} tasks={tasks}></Column>
-        <Column label="In Review" status={inReview.id} tasks={tasks}></Column>
-        <Column label="Done" status={done.id} tasks={tasks}></Column>
+        <Column label="To Do" status={todo.id} tasks={tasks} onEditTask={onEditTask}></Column>
+        <Column label="In Progress" status={inProgress.id} tasks={tasks} onEditTask={onEditTask}></Column>
+        <Column label="In Review" status={inReview.id} tasks={tasks} onEditTask={onEditTask}></Column>
+        <Column label="Done" status={done.id} tasks={tasks} onEditTask={onEditTask}></Column>
       </div>
     </div>
 
+    // floating copy of card so drag and drop effect works
     <DragOverlay>
       {activeTask ? (
         <TaskCard
@@ -73,6 +74,7 @@ export default function Board({ tasks, setTasks }: { tasks: any[]; setTasks: (ta
         user_id={activeTask.user_id}
         created_at={activeTask.created_at}
         isOverlay
+        onEditClick={() => {}}
         ></TaskCard>
       ) : null}
     </DragOverlay>

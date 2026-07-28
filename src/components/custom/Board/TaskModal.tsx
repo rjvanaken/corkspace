@@ -2,8 +2,7 @@ import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "
 import {DialogClose} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Plus, X } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PriorityBadge from "./PriorityBadge";
 import { Priorities, type PriorityId } from "@/lib/constants";
 import { Button } from "@/components/ui/button";
@@ -24,26 +23,59 @@ export default function TaskModal({
     open,
   onOpenChange,
   onSaved,
+  task,
 }:{
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onSaved: (task: any) => void;
+  task?: Task;
 
 }) {
 
   
   
-  
-  const [priority, setPriority] = useState<PriorityId>("normal");
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
+  // pre-populate the form - empty for new task, filled for edit
+  const [priority, setPriority] = useState<PriorityId>(task?.priority ?? "normal");
+  const isEditMode = !!task;
+  const [title, setTitle] = useState(task?.title ?? "");
+  const [description, setDescription] = useState(task?.description ?? "");
+
+  // reset fields on close
+  useEffect(() => {
+  if (!open) {
+    setTitle("");
+    setDescription("");
+    setPriority("normal");
+  }
+}, [open]);
+
+// pre-fill fields whenever the modal opens with a task to edit
+  useEffect(() => {
+    if (open) {
+      setTitle(task?.title ?? "");
+      setDescription(task?.description ?? "");
+      setPriority(task?.priority ?? "normal");
+    }
+  }, [open, task]);
   
 
   async function handleSave() {
           if (!title.trim()) return;
           const { data: sessionData } = await supabase.auth.getSession();
           console.log("current session user:", sessionData.session?.user?.id);
-          const { data, error } = await supabase
+          
+          const { data, error } = isEditMode
+               ? await supabase
+                .from("tasks")
+                .update({
+                  title: title,
+                  description: description,
+                  priority: priority,
+                })
+                .eq("id", task!.id)
+                .select()
+                .single()
+          : await supabase
               .from("tasks")
               .insert({
                   title: title,
@@ -79,7 +111,7 @@ export default function TaskModal({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="pb-7 flex-col gap-8">
         <DialogHeader className="flex flex-row items-center justify-between">
-          <DialogTitle className="text-xl font-bold text-foreground">New Task</DialogTitle>
+          <DialogTitle className="text-xl font-bold text-foreground">{isEditMode ? "Edit Task" : "New Task"} </DialogTitle>
           <DialogClose className="h-5 w-auto">
           </DialogClose>
         </DialogHeader>

@@ -3,8 +3,9 @@ import TaskCard from "@/components/custom/Board/TaskCard";
 import { useState } from "react";
 import { useDroppable } from "@dnd-kit/core";
 
-export default function Column({ label, status, tasks }: { label: string; status: string; tasks: any[] }) {
+export default function Column({ label, status, tasks, onEditTask }: { label: string; status: string; tasks: any[]; onEditTask: (task: any) => void  }) {
   const tasksInThisColumn = tasks.filter((t) => t.status === status);
+  const countForColumn = tasks.filter((t) => t.status === status).length;
 
   const [isScrolled, setIsScrolled] = useState(false);
   const { setNodeRef, isOver } = useDroppable({ id: status });
@@ -19,7 +20,7 @@ export default function Column({ label, status, tasks }: { label: string; status
   className="flex-1 max-w-[800px] flex flex-col h-full bg-card border border-1 shadow rounded-lg"
     >
       <div className={`flex items-center gap-3 px-6 py-6 shrink-0 ${isScrolled ? "border-b border-border" : ""}`}>
-        <span className="text-xl font-bold text-foreground">{label}</span>
+        <span className="text-xl font-bold text-foreground">{label}</span>       
         <Circle></Circle>
       </div>
 
@@ -36,6 +37,7 @@ export default function Column({ label, status, tasks }: { label: string; status
           description={task.description}
           user_id={task.user_id}
           created_at={task.created_at}
+          onEditClick={() => onEditTask(task)}
           ></TaskCard>
         ))}
       </div>

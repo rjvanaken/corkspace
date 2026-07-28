@@ -1,5 +1,4 @@
 import { Plus } from "lucide-react";
-import TaskModal from "@/components/custom/Board/TaskModal";
 
 export default function Toolbar({ onNewTaskClick }: { onNewTaskClick: () => void }) {
   return (
@@ -13,7 +12,7 @@ export default function Toolbar({ onNewTaskClick }: { onNewTaskClick: () => void
           Filter (placeholder)
         </div>
 
-      <button onClick={onNewTaskClick} className="flex items-center gap-1.5 rounded-md bg-secondary text-secondary-foreground px-3 py-1.5 text-sm font-medium hover:opacity-90 transition-opacity">
+      <button onClick={onNewTaskClick} className="flex items-center gap-1.5 rounded-md bg-primary text-secondary-foreground px-3 py-1.5 text-sm font-medium hover:opacity-90 transition-opacity">
                 <Plus size={14} />
                 New Task
               </button>

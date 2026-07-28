@@ -9,9 +9,12 @@ import { supabase } from "./lib/supabaseClient";
 export default function App() {
 
   const[isModalOpen, setIsModalOpen] = useState(false);
+  const [editingTask, setEditingTask] = useState<any>(null);
+  
   const [tasks, setTasks] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   
+  // load data for the card
   useEffect(() => {
       async function loadTasks() {
         let { data: sessionData } = await supabase.auth.getSession();
@@ -40,6 +43,8 @@ export default function App() {
       loadTasks();
     }, []);
 
+    
+
 
 if (loading) {
     return <div className="flex-1 flex items-center justify-center text-muted-foreground text-sm">Loading...</div>;
@@ -50,9 +55,21 @@ if (loading) {
       <MainHeader></MainHeader>
       <Toolbar onNewTaskClick={() => setIsModalOpen(true)}></Toolbar>
       <main className="flex-1 flex items-center justify-center text-muted-foreground text-sm">
-        <Board tasks={tasks} setTasks={setTasks}></Board>
+        <Board tasks={tasks} setTasks={setTasks} onEditTask={setEditingTask}></Board>
       </main>
-      <TaskModal open={isModalOpen} onOpenChange={setIsModalOpen} onSaved={(newTask) => setTasks((current) => [...current, newTask])}></TaskModal>
+      <TaskModal 
+        open={isModalOpen || !!editingTask}
+        onOpenChange={(open) => {setIsModalOpen(open); if (!open) setEditingTask(null);}} 
+        onSaved={(savedTask) =>
+          setTasks((current) => {
+            const exists = current.some((t) => t.id === savedTask.id);
+            return exists
+              ? current.map((t) => (t.id === savedTask.id ? savedTask : t))
+              : [...current, savedTask];
+          })
+        }
+        task={editingTask}>
+      </TaskModal>
 
     </div>
   );

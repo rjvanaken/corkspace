@@ -13,6 +13,7 @@ interface TaskCardProps {
   description: string;
   priority: PriorityId;
   isOverlay?: boolean;
+  onEditClick: () => void ;
 }
 
 export default function TaskCard({
@@ -24,6 +25,7 @@ export default function TaskCard({
   created_at,
   priority,
   isOverlay = false,
+  onEditClick,
 }: TaskCardProps) {
 
   const borderColorClass = {
@@ -59,7 +61,7 @@ export default function TaskCard({
         </button>
         <CardTitle className="items-start flex-1">{title}</CardTitle>
         <button className="rounded-full justify-end">
-          <MoreHorizontal className="size-5 flex-1 text-foreground" />
+          <MoreHorizontal onClick={onEditClick} className="size-5 flex-1 text-foreground" />
         </button>
       </div>
       <CardDescription className="items-start">{description}</CardDescription>
