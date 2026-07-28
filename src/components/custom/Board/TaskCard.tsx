@@ -49,7 +49,7 @@ export default function TaskCard({
     <Card
       ref={isOverlay ? undefined : draggable.setNodeRef}
       style={style}
-      className={`shadow-md shrink-0 min-w-0 py-3 w-full gap-4 px-4 border-t-4 ${borderColorClass} ${isOverlay ? "shadow-xl" : ""}`}
+      className={`shadow shrink-0 min-w-0 py-3 w-full gap-4 px-4 border border-neutral-300 ${isOverlay ? "shadow-xl" : ""}`}
     >
       <div className="flex flex-row items-center w-full gap-2 text-primary justify-between">
         <button

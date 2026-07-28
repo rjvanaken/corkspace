@@ -21,18 +21,21 @@ export default function Column({ label, status, tasks, onEditTask,}: { label: st
   return (
 <div
   ref={setNodeRef}
-  className="flex-1 max-w-[800px] min-w-0 basis-0 min-w-0 flex flex-col h-full bg-card border border-1 shadow rounded-lg"
+  className="flex-1 max-w-[800px] min-w-0 basis-0 min-w-0 flex flex-col h-full bg-card border border-t-0 shadow rounded-lg"
     >
-      
+      <div style={{ borderColor: columnHex}}
+      className="p-0 m-0 border-t-4 rounded-lg">
       <div className={`flex items-center gap-3 px-6 py-6 shrink-0 ${isScrolled ? "border-b border-border" : ""}`}>
         <span className="flex-1 text-xl font-bold text-foreground">{label}</span>       
         <div className="rounded-full h-6 w-10 pt-0 items-center"
          style={{ backgroundColor: fadedColorSlight(columnHex), borderColor: columnHex, borderWidth: 2}}
         > 
-        <p className="text-sm font-bold text-center text-primary"> {countForColumn}</p>
-
+        <p style={{ color: columnHex}}
+        className="text-sm font-bold text-center text-primary"> {countForColumn}</p>
+</div>
         </div>
       </div>
+      
 
       <div 
       onScroll={handleScroll}

@@ -62,7 +62,7 @@ export default function Board({ tasks, setTasks, onEditTask}: { tasks: any[]; se
       </div>
     </div>
 
-    // floating copy of card so drag and drop effect works
+    {/* floating copy of card so drag and drop effect works */}
     <DragOverlay>
       {activeTask ? (
         <TaskCard

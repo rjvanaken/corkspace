@@ -17,6 +17,6 @@ export function fadedColor(hex: string, alpha: string = "22"): string {
   
 }
 
-export function fadedColorSlight(hex: string, alpha: string = "90"): string {
+export function fadedColorSlight(hex: string, alpha: string = "60"): string {
   return `${hex}${alpha}`;
 }
