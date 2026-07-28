@@ -6,12 +6,8 @@ import { useState } from "react";
 import { DndContext, DragOverlay, type DragEndEvent, type DragStartEvent } from "@dnd-kit/core";
 
 
-const todo = Columns.find((c) => c.id === "todo")!;
-const inProgress = Columns.find((c) => c.id === "in_progress")!;
-const inReview = Columns.find((c) => c.id === "in_review")!;
-const done = Columns.find((c) => c.id === "done")!;
 
-export default function Board({ tasks, setTasks, onEditTask, userLabels}: { tasks: any[]; setTasks: (tasks: any[] | ((current: any[]) => any[])) => void; onEditTask: (task: any) => void; userLabels: any[]}) {
+export default function Board({ tasks, setTasks, onEditTask, onDeleteTask, userLabels}: { tasks: any[]; setTasks: (tasks: any[] | ((current: any[]) => any[])) => void; onEditTask: (task: any) => void; onDeleteTask: (task: any) => void; userLabels: any[]}) {
 
 
   const [activeTask, setActiveTask] = useState<any>(null);
@@ -63,6 +59,7 @@ export default function Board({ tasks, setTasks, onEditTask, userLabels}: { task
                 tasks={tasks}
                 userLabels={userLabels}
                 onEditTask={onEditTask}
+                onDeleteTask={onDeleteTask}
               ></Column>
             ))}
       </div>
@@ -83,6 +80,7 @@ export default function Board({ tasks, setTasks, onEditTask, userLabels}: { task
         labelIds={activeTask.labelIds}
         isOverlay
         onEditClick={() => {}}
+        onDeleteClick={() => {}}
         ></TaskCard>
       ) : null}
     </DragOverlay>

@@ -4,6 +4,12 @@ import { GripVertical, MoreHorizontal } from "lucide-react";
 import Priority from "./Priority";
 import { useDraggable } from "@dnd-kit/core";
 import CardLabel from "./CardLabel";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 interface TaskCardProps {
   id: string;
@@ -17,6 +23,7 @@ interface TaskCardProps {
   userLabels: any[];
   labelIds : any[];
   onEditClick: () => void ;
+  onDeleteClick: () => void ;
 }
 
 export default function TaskCard({
@@ -31,6 +38,7 @@ export default function TaskCard({
   userLabels,
   labelIds,
   onEditClick,
+  onDeleteClick,
 }: TaskCardProps) {
 
   // const borderColorClass = {
@@ -70,9 +78,17 @@ export default function TaskCard({
           <GripVertical className="size-4" />
         </button>
         <CardTitle style={{ fontSize: "15px", fontWeight: 500, lineHeight: 1.0 }} className="items-start flex-1">{title}</CardTitle>
-        <button className="rounded-full justify-end">
-          <MoreHorizontal onClick={onEditClick} className="size-5 flex-1 text-foreground" />
-        </button>
+        <DropdownMenu>
+          <DropdownMenuTrigger render={
+            <button className="rounded-full justify-end">
+              <MoreHorizontal className="size-5 flex-1 text-foreground" />
+            </button>
+          } />
+          <DropdownMenuContent className="w-32 ring-0 border bg-card border-border">
+            <DropdownMenuItem onClick={onEditClick}>Edit</DropdownMenuItem>
+            <DropdownMenuItem variant="destructive" onClick={onDeleteClick}>Delete</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
       <CardDescription style={{ fontSize: "13px", fontWeight: 400 }} className=" w-full items-start">{description}</CardDescription>
           <div className="flex flex-row flex-wrap pb-1 gap-1.5">

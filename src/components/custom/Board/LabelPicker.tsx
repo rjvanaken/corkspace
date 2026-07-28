@@ -41,7 +41,7 @@ export default function LabelPicker({
             } />
             <DropdownMenuContent className="w-55 ring-0 border border-neutral-400">
                 <DropdownMenuGroup className={"ring-0 border-1 border-neutral-400"}>
-                    <DropdownMenuLabel className="font-semibold text-sm text-neutral-700">Select Labels</DropdownMenuLabel>
+                    <DropdownMenuLabel className="font-semibold text-sm text-neutral-700">Labels</DropdownMenuLabel>
                     {userLabels.map((label) => (
                         <DropdownMenuCheckboxItem
                             key={label.id}

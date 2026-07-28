@@ -82,7 +82,22 @@ export default function App() {
       init();
     }, []);
 
-    
+    async function handleDeleteTask(task: any) {
+      const { error: labelsError } = await supabase.from("task_labels").delete().eq("task_id", task.id);
+      if (labelsError) {
+        console.log("delete task_labels error:", labelsError);
+      }
+
+      const { error } = await supabase.from("tasks").delete().eq("id", task.id);
+      if (error) {
+        console.log("delete task error:", error);
+        return;
+      }
+
+      setTasks((current) => current.filter((t) => t.id !== task.id));
+    }
+
+
 
 
 if (loading) {
@@ -94,7 +109,7 @@ if (loading) {
       <MainHeader searchQuery={searchQuery} onSearchChange={setSearchQuery}></MainHeader>
       <Toolbar onNewTaskClick={() => setIsModalOpen(true)}></Toolbar>
       <main className="flex-1 flex items-center justify-center text-muted-foreground text-sm">
-        <Board userLabels={labels} tasks={filteredTasks} setTasks={setTasks} onEditTask={setEditingTask}></Board>
+        <Board userLabels={labels} tasks={filteredTasks} setTasks={setTasks} onEditTask={setEditingTask} onDeleteTask={handleDeleteTask}></Board>
       </main>
       <TaskModal
         userLabels={labels}
