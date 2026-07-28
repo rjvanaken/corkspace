@@ -4,9 +4,6 @@ import Board from "./components/custom/Board";
 import { useEffect, useState } from "react";
 import TaskModal from "./components/custom/Board/TaskModal";
 import { supabase } from "./lib/supabaseClient";
-import { colorForIndex } from "./lib/constants";
-
-const DEFAULT_LABEL_NAMES = ["Bug", "Feature", "Design", "Task"];
 
 export default function App() {
 
@@ -43,7 +40,7 @@ export default function App() {
         return true;
       }
 
-      // get user's labels, on startup add labels to database
+      // get user's labels (defaults are seeded server-side by a trigger on new users)
       async function loadLabels() {
         const { data, error } = await supabase.from("labels").select("*");
 
@@ -52,23 +49,7 @@ export default function App() {
           return [];
         }
 
-        if (data && data.length > 0) {
-          return data;
-        }
-
-        const seeds = DEFAULT_LABEL_NAMES.map((name, index) => ({
-          name,
-          color: colorForIndex(index),
-        }));
-
-        const { data: seeded, error: seedError } = await supabase.from("labels").insert(seeds).select();
-
-        if (seedError) {
-          console.log("labels seed error:", seedError);
-          return [];
-        }
-
-        return seeded ?? [];
+        return data ?? [];
       }
 
       async function loadTasks() {
