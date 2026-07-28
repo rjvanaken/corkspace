@@ -51,7 +51,7 @@ export default function Board({ tasks, setTasks, onEditTask}: { tasks: any[]; se
 
   
   return (
-    <div className="w-full max-w-[1600px]">
+    <div className="w-full max-w-[1550px]">
     <DndContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
     <div className="flex-1 flex justify-center h-screen overflow-hidden bg-background p-4">
       <div className="w-full flex-1 flex gap-6 rounded-lg">

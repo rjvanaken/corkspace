@@ -64,7 +64,7 @@ export default function TaskCard({
           <MoreHorizontal onClick={onEditClick} className="size-5 flex-1 text-foreground" />
         </button>
       </div>
-      <CardDescription style={{ fontSize: "13px", fontWeight: 400 }} className=" w-full items-start truncate">{description}</CardDescription>
+      <CardDescription style={{ fontSize: "13px", fontWeight: 400 }} className=" w-full items-start">{description}</CardDescription>
       <div className="flex flex-row items-center justify-between">
         <div className="flex flex-row items-start gap-2">
           <Priority priority={priority}></Priority>
