@@ -11,7 +11,7 @@ interface MainHeaderProps {
 
 export function MainHeader({ searchQuery, onSearchChange, onNewTaskClick }: MainHeaderProps) {
   return (
-      <div className="bg-border">
+      <div className="bg-border shadow">
     <header className=" flex-row flex w-full items-center justify-between px-8 py-3 border-b border-border shrink-0">
       <div className="w-1/7"><img src={logo} alt="Corkspace" className="h-12 w-auto" /> </div>
 
