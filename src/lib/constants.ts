@@ -6,6 +6,13 @@ export const Columns = columnColorData as { id: ColumnId; label: string; hex: st
 export type PriorityId = "low" | "normal" | "high";
 export const Priorities = priorityColorData as { id: PriorityId; label: string; hex: string }[];
 
+export const ColumnEmptyMessages: Record<ColumnId, string> = {
+  todo: "Nothing on the list yet",
+  in_progress: "Nothing in progress",
+  in_review: "Nothing waiting for review",
+  done: "Nothing completed yet",
+};
+
 export const CategoricalColors: string[] = categoricalColorData;
 
 export function colorForIndex(index: number): string {

@@ -135,7 +135,15 @@ if (loading) {
     <div className="h-screen bg-background text-foreground flex flex-col">
       <MainHeader searchQuery={searchQuery} onSearchChange={setSearchQuery} onNewTaskClick={() => handleAddTask("todo")}></MainHeader>
       <main className="flex-1 flex items-center justify-center text-muted-foreground text-sm">
-        <Board userLabels={labels} tasks={filteredTasks} setTasks={setTasks} onEditTask={setEditingTask} onDeleteTask={handleDeleteTask} onAddTask={handleAddTask}></Board>
+        <Board
+          userLabels={labels}
+          tasks={filteredTasks}
+          isSearching={searchQuery.trim().length > 0}
+          setTasks={setTasks}
+          onEditTask={setEditingTask}
+          onDeleteTask={handleDeleteTask}
+          onAddTask={handleAddTask}
+        ></Board>
       </main>
       <TaskModal
         userLabels={labels}

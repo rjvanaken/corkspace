@@ -1,12 +1,12 @@
 import TaskCard from "@/components/custom/Board/TaskCard";
 import { useState } from "react";
 import { useDroppable } from "@dnd-kit/core";
-import { Columns } from "@/lib/constants";
+import { Columns, ColumnEmptyMessages, type ColumnId } from "@/lib/constants";
 import { Plus } from "lucide-react";
 
 // inside Column, using status to find the matching column's hex
 
-export default function Column({ label, status, tasks, onEditTask, onDeleteTask, onAddTask, userLabels}: { label: string; status: string; tasks: any[]; onEditTask: (task: any) => void; onDeleteTask: (task: any) => void; onAddTask: (status: string) => void; userLabels : any[]}) {
+export default function Column({ label, status, tasks, onEditTask, onDeleteTask, onAddTask, userLabels, isSearching}: { label: string; status: ColumnId; tasks: any[]; onEditTask: (task: any) => void; onDeleteTask: (task: any) => void; onAddTask: (status: string) => void; userLabels : any[]; isSearching: boolean}) {
   const tasksInThisColumn = tasks.filter((t) => t.status === status);
   const countForColumn = tasks.filter((t) => t.status === status).length;
   
@@ -44,25 +44,33 @@ export default function Column({ label, status, tasks, onEditTask, onDeleteTask,
       </div>
       
 
-      <div 
+      <div
       onScroll={handleScroll}
       className="flex-1 overflow-y-auto px-4 pb-4 flex flex-col gap-3">
-        {tasksInThisColumn.map((task) => (
-          <TaskCard
-          key={task.id}
-          id={task.id}
-          title={task.title}
-          status={task.status}
-          priority={task.priority}
-          description={task.description}
-          user_id={task.user_id}
-          created_at={task.created_at}
-          userLabels={userLabels}
-          labelIds={task.labelIds}
-          onEditClick={() => onEditTask(task)}
-          onDeleteClick={() => onDeleteTask(task)}
-          ></TaskCard>
-        ))}
+        {tasksInThisColumn.length === 0 ? (
+          isSearching ? (
+            <p className="text-sm text-muted-foreground text-center py-6">No matches in this column</p>
+          ) : (
+            <p className="text-sm text-muted-foreground text-center py-6">{ColumnEmptyMessages[status]}</p>
+          )
+        ) : (
+          tasksInThisColumn.map((task) => (
+            <TaskCard
+            key={task.id}
+            id={task.id}
+            title={task.title}
+            status={task.status}
+            priority={task.priority}
+            description={task.description}
+            user_id={task.user_id}
+            created_at={task.created_at}
+            userLabels={userLabels}
+            labelIds={task.labelIds}
+            onEditClick={() => onEditTask(task)}
+            onDeleteClick={() => onDeleteTask(task)}
+            ></TaskCard>
+          ))
+        )}
       </div>
     </div>
   );

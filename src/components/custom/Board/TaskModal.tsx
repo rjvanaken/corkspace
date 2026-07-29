@@ -49,6 +49,7 @@ export default function TaskModal({
   const [description, setDescription] = useState(task?.description ?? "");
   const [status, setStatus] = useState<Task["status"]>(task?.status ?? initialStatus);
   const [selectedLabelIds, setSelectedLabelIds] = useState<string[]>(task?.labelIds ?? []);
+  const [isSaving, setIsSaving] = useState(false);
 
   function handleToggleLabel(labelId: string) {
     setSelectedLabelIds((current) =>
@@ -66,6 +67,7 @@ export default function TaskModal({
     setPriority("normal");
     setStatus("todo");
     setSelectedLabelIds([]);
+    setIsSaving(false);
   }
 }, [open]);
 
@@ -82,7 +84,8 @@ export default function TaskModal({
   
 
   async function handleSave() {
-          if (!title.trim()) return;
+          if (!title.trim() || isSaving) return;
+          setIsSaving(true);
           const { data: sessionData } = await supabase.auth.getSession();
           console.log("current session user:", sessionData.session?.user?.id);
           
@@ -111,6 +114,7 @@ export default function TaskModal({
 
           if (error) {
               console.log("save error:", error);
+              setIsSaving(false);
               return;
           }
 
@@ -212,10 +216,10 @@ export default function TaskModal({
 <Button
   className="flex-1 py-2 h-full bg-button hover:bg-button/80 transition-colors"
   size="lg"
-  disabled={!title.trim()}
+  disabled={!title.trim() || isSaving}
   onClick={() => handleSave()}
 >
-  Save Task
+  {isSaving ? "Saving..." : "Save Task"}
 </Button>
             </div>
 
