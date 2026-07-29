@@ -2,10 +2,11 @@ import TaskCard from "@/components/custom/Board/TaskCard";
 import { useState } from "react";
 import { useDroppable } from "@dnd-kit/core";
 import { Columns } from "@/lib/constants";
+import { Plus } from "lucide-react";
 
 // inside Column, using status to find the matching column's hex
 
-export default function Column({ label, status, tasks, onEditTask, onDeleteTask, userLabels}: { label: string; status: string; tasks: any[]; onEditTask: (task: any) => void; onDeleteTask: (task: any) => void; userLabels : any[]}) {
+export default function Column({ label, status, tasks, onEditTask, onDeleteTask, onAddTask, userLabels}: { label: string; status: string; tasks: any[]; onEditTask: (task: any) => void; onDeleteTask: (task: any) => void; onAddTask: (status: string) => void; userLabels : any[]}) {
   const tasksInThisColumn = tasks.filter((t) => t.status === status);
   const countForColumn = tasks.filter((t) => t.status === status).length;
   
@@ -32,6 +33,13 @@ export default function Column({ label, status, tasks, onEditTask, onDeleteTask,
         >
         <p className="text-sm font-bold text-center text-primary">{countForColumn}</p>
 </div>
+        <button
+          type="button"
+          onClick={() => onAddTask(status)}
+          className="rounded-full h-6 w-6 flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-neutral-500/10 transition-colors"
+        >
+          <Plus size={16} />
+        </button>
         </div>
       </div>
       

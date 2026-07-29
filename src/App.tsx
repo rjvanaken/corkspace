@@ -3,11 +3,13 @@ import Board from "./components/custom/Board";
 import { useEffect, useState } from "react";
 import TaskModal from "./components/custom/Board/TaskModal";
 import { supabase } from "./lib/supabaseClient";
+import { colorForIndex, type ColumnId } from "./lib/constants";
 
 export default function App() {
 
   const[isModalOpen, setIsModalOpen] = useState(false);
   const [editingTask, setEditingTask] = useState<any>(null);
+  const [newTaskStatus, setNewTaskStatus] = useState<ColumnId>("todo");
   const [searchQuery, setSearchQuery] = useState("");
   const [tasks, setTasks] = useState<any[]>([]);
   const [labels, setLabels] = useState<any[]>([]);
@@ -86,6 +88,27 @@ const filteredTasks = tasks.filter((t) => {
       init();
     }, []);
 
+    async function handleCreateLabel(name: string) {
+      const { data, error } = await supabase
+        .from("labels")
+        .insert({ name, color: colorForIndex(labels.length) })
+        .select()
+        .single();
+
+      if (error) {
+        console.log("create label error:", error);
+        return null;
+      }
+
+      setLabels((current) => [...current, data]);
+      return data;
+    }
+
+    function handleAddTask(status: string) {
+      setNewTaskStatus(status as ColumnId);
+      setIsModalOpen(true);
+    }
+
     async function handleDeleteTask(task: any) {
       const { error: labelsError } = await supabase.from("task_labels").delete().eq("task_id", task.id);
       if (labelsError) {
@@ -110,14 +133,16 @@ if (loading) {
 
   return (
     <div className="h-screen bg-background text-foreground flex flex-col">
-      <MainHeader searchQuery={searchQuery} onSearchChange={setSearchQuery} onNewTaskClick={() => setIsModalOpen(true)}></MainHeader>
+      <MainHeader searchQuery={searchQuery} onSearchChange={setSearchQuery} onNewTaskClick={() => handleAddTask("todo")}></MainHeader>
       <main className="flex-1 flex items-center justify-center text-muted-foreground text-sm">
-        <Board userLabels={labels} tasks={filteredTasks} setTasks={setTasks} onEditTask={setEditingTask} onDeleteTask={handleDeleteTask}></Board>
+        <Board userLabels={labels} tasks={filteredTasks} setTasks={setTasks} onEditTask={setEditingTask} onDeleteTask={handleDeleteTask} onAddTask={handleAddTask}></Board>
       </main>
       <TaskModal
         userLabels={labels}
+        onCreateLabel={handleCreateLabel}
+        initialStatus={newTaskStatus}
         open={isModalOpen || !!editingTask}
-        onOpenChange={(open) => {setIsModalOpen(open); if (!open) setEditingTask(null);}} 
+        onOpenChange={(open) => {setIsModalOpen(open); if (!open) setEditingTask(null);}}
         onSaved={(savedTask) =>
           setTasks((current) => {
             const exists = current.some((t) => t.id === savedTask.id);

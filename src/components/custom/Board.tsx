@@ -7,7 +7,7 @@ import { DndContext, DragOverlay, type DragEndEvent, type DragStartEvent } from 
 
 
 
-export default function Board({ tasks, setTasks, onEditTask, onDeleteTask, userLabels }: { tasks: any[]; setTasks: (tasks: any[] | ((current: any[]) => any[])) => void; onEditTask: (task: any) => void; onDeleteTask: (task: any) => void; userLabels: any[] }) {
+export default function Board({ tasks, setTasks, onEditTask, onDeleteTask, onAddTask, userLabels }: { tasks: any[]; setTasks: (tasks: any[] | ((current: any[]) => any[])) => void; onEditTask: (task: any) => void; onDeleteTask: (task: any) => void; onAddTask: (status: string) => void; userLabels: any[] }) {
 
 
   const [activeTask, setActiveTask] = useState<any>(null);
@@ -60,6 +60,7 @@ export default function Board({ tasks, setTasks, onEditTask, onDeleteTask, userL
                 userLabels={userLabels}
                 onEditTask={onEditTask}
                 onDeleteTask={onDeleteTask}
+                onAddTask={onAddTask}
               ></Column>
             ))}
       </div>

@@ -3,7 +3,7 @@ export const columnColorData = [
   { id: "in_progress", label: "In Progress", hex: "#5B7FA6" },
   { id: "in_review", label: "In Review", hex: "#8A6FB0" },
   // { id: "done", label: "Done", hex: t#9a731e" },
-  { id: "done", label: "Done", hex: "#1f8c6f" },
+  { id: "done", label: "Done", hex: "#1e755e" },
 ];
 
 export const priorityColorData = [
@@ -18,10 +18,10 @@ export const priorityColorData = [
   // { id: "high", label: "High", hex: "#f3543b" },
 
 export const categoricalColorData = [
-  "#2A78D6",
-  "#EB6834",
-  "#E8A33D",
-  "#E87BA4",
+  "#B0824A",
+  "#C97AA0",
+  "#8FA05C",
+  "#5F7A99",
   "#5C9EA3",
   "#7A5C8A",
 ];

@@ -27,12 +27,16 @@ export default function TaskModal({
   onSaved,
   task,
   userLabels,
+  onCreateLabel,
+  initialStatus = "todo",
 }:{
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onSaved: (task: any) => void;
   task?: Task;
   userLabels: any[];
+  onCreateLabel: (name: string) => Promise<any>;
+  initialStatus?: Task["status"];
 
 }) {
 
@@ -43,6 +47,7 @@ export default function TaskModal({
   const isEditMode = !!task;
   const [title, setTitle] = useState(task?.title ?? "");
   const [description, setDescription] = useState(task?.description ?? "");
+  const [status, setStatus] = useState<Task["status"]>(task?.status ?? initialStatus);
   const [selectedLabelIds, setSelectedLabelIds] = useState<string[]>(task?.labelIds ?? []);
 
   function handleToggleLabel(labelId: string) {
@@ -59,6 +64,7 @@ export default function TaskModal({
     setTitle("");
     setDescription("");
     setPriority("normal");
+    setStatus("todo");
     setSelectedLabelIds([]);
   }
 }, [open]);
@@ -69,9 +75,10 @@ export default function TaskModal({
       setTitle(task?.title ?? "");
       setDescription(task?.description ?? "");
       setPriority(task?.priority ?? "normal");
+      setStatus(task?.status ?? initialStatus);
       setSelectedLabelIds(task?.labelIds ?? []);
     }
-  }, [open, task]);
+  }, [open, task, initialStatus]);
   
 
   async function handleSave() {
@@ -96,7 +103,7 @@ export default function TaskModal({
                   title: title,
                   description: description,
                   priority: priority,
-                  status: "todo",
+                  status: status,
 
               })
               .select()
@@ -188,6 +195,7 @@ export default function TaskModal({
           userLabels={userLabels}
           selectedLabelIds={selectedLabelIds}
           onToggle={handleToggleLabel}
+          onCreateLabel={onCreateLabel}
         ></LabelPicker>
      </div>
 </div>
