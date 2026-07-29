@@ -128,7 +128,7 @@ const filteredTasks = tasks.filter((t) => {
 
 
 if (loading) {
-    return <div className="flex-1 flex items-center justify-center text-muted-foreground text-sm">Loading...</div>;
+    return <div className="h-screen flex items-center justify-center text-muted-foreground text-sm">Loading...</div>;
   }
 
   return (

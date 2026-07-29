@@ -1,9 +1,10 @@
 export const columnColorData = [
   { id: "todo", label: "To Do", hex: "#7C8B90" },
-  { id: "in_progress", label: "In Progress", hex: "#5B7FA6" },
-  { id: "in_review", label: "In Review", hex: "#8A6FB0" },
+  { id: "in_progress", label: "In Progress", hex: "#7C8B90" },
+  { id: "in_review", label: "In Review", hex: "#7C8B90" },
   // { id: "done", label: "Done", hex: t#9a731e" },
-  { id: "done", label: "Done", hex: "#1e755e" },
+  { id: "done", label: "Done", hex: "#7C8B90" },
+  // { id: "done", label: "Done", hex: "#4b5b9c" },
 ];
 
 export const priorityColorData = [
