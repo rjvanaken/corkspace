@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import TaskModal from "./components/custom/Board/TaskModal";
 import { supabase } from "./lib/supabaseClient";
 import { colorForIndex, type ColumnId } from "./lib/constants";
+import logo from "@/assets/logo-light-mode.png";
 
 export default function App() {
 
@@ -129,7 +130,9 @@ const filteredTasks = tasks.filter((t) => {
 
 
 if (loading) {
-    return <div className="h-screen flex items-center justify-center text-muted-foreground text-sm">Loading...</div>;
+    return <div className="h-screen flex items-center justify-center text-muted-foreground text-sm">
+            <div className="w-1/7"><img src={logo} alt="Corkspace" className="h-12 w-auto" /> </div>
+    </div>;
   }
 
   return (
