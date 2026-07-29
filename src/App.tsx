@@ -19,11 +19,12 @@ export default function App() {
 const filteredTasks = tasks.filter((t) => {
   const query = searchQuery.toLowerCase();
   const matchesTitle = t.title.toLowerCase().includes(query);
+  const matchesPriority = (t.priority ?? "").toLowerCase().includes(query);
   const matchesLabel = (t.labelIds ?? []).some((labelId: any) => {
     const label = labels.find((l) => l.id === labelId);
     return label?.name.toLowerCase().includes(query);
   });
-  return matchesTitle || matchesLabel;
+  return matchesTitle || matchesLabel || matchesPriority;
 });
   
   // load data for the card
