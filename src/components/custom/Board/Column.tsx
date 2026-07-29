@@ -21,7 +21,7 @@ export default function Column({ label, status, tasks, onEditTask, onDeleteTask,
   return (
 <div
   ref={setNodeRef}
-  className="flex-1 max-w-[1500px] min-w-[100px] basis-0 flex flex-col h-full bg-card border border-t-0 shadow rounded-lg"
+  className="flex-1 max-w-[1500px] min-w-[100px] basis-0 flex flex-col h-full bg-card border-t-0 border-l ring-1border-r border-b shadow rounded-lg"
     >
       <div style={{ borderColor: columnHex}}
       className="p-0 m-0 border-t-4 rounded-lg">

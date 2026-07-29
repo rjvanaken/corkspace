@@ -144,9 +144,7 @@ export default function TaskCard({
       <div className="flex flex-row items-center justify-between">
         <div className="flex flex-row items-start gap-2">
           <Priority priority={priority}></Priority>
-          <span>date</span>
         </div>
-        <span>user</span>
       </div>
     </Card>
   );
