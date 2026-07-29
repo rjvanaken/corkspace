@@ -7,7 +7,7 @@ import { DndContext, DragOverlay, type DragEndEvent, type DragStartEvent } from 
 
 
 
-export default function Board({ tasks, setTasks, onEditTask, onDeleteTask, userLabels}: { tasks: any[]; setTasks: (tasks: any[] | ((current: any[]) => any[])) => void; onEditTask: (task: any) => void; onDeleteTask: (task: any) => void; userLabels: any[]}) {
+export default function Board({ tasks, setTasks, onEditTask, onDeleteTask, userLabels }: { tasks: any[]; setTasks: (tasks: any[] | ((current: any[]) => any[])) => void; onEditTask: (task: any) => void; onDeleteTask: (task: any) => void; userLabels: any[] }) {
 
 
   const [activeTask, setActiveTask] = useState<any>(null);
@@ -47,7 +47,7 @@ export default function Board({ tasks, setTasks, onEditTask, onDeleteTask, userL
 
   
   return (
-    <div className="w-full max-w-[1550px]">
+    <div className="w-full pt-3 max-w-[1550px]">
     <DndContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
     <div className="flex-1 flex justify-center h-screen overflow-hidden bg-background p-4">
       <div className="w-full flex-1 flex gap-6 rounded-lg">

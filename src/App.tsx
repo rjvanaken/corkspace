@@ -111,8 +111,7 @@ if (loading) {
 
   return (
     <div className="h-screen bg-background text-foreground flex flex-col">
-      <MainHeader searchQuery={searchQuery} onSearchChange={setSearchQuery}></MainHeader>
-      <Toolbar onNewTaskClick={() => setIsModalOpen(true)}></Toolbar>
+      <MainHeader searchQuery={searchQuery} onSearchChange={setSearchQuery} onNewTaskClick={() => setIsModalOpen(true)}></MainHeader>
       <main className="flex-1 flex items-center justify-center text-muted-foreground text-sm">
         <Board userLabels={labels} tasks={filteredTasks} setTasks={setTasks} onEditTask={setEditingTask} onDeleteTask={handleDeleteTask}></Board>
       </main>
