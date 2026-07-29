@@ -1,4 +1,4 @@
-import { fadedColorSlight } from "@/lib/constants";
+import { fadedColorSlight, darkenColor } from "@/lib/constants";
 
 interface CardLabelProps {
     labelText: string;
@@ -14,7 +14,7 @@ export default function CardLabel({ labelText, colorLabel }: CardLabelProps) {
     >
       <span
         className="text-xs text-center items-center leading-none -translate-y-px"
-        style={{ color: colorLabel, fontWeight: 500 }}
+        style={{ color: darkenColor(colorLabel, 0.15), fontWeight: 500 }}
       >
         {labelText}
       </span>

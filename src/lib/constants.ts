@@ -20,3 +20,11 @@ export function fadedColor(hex: string, alpha: string = "22"): string {
 export function fadedColorSlight(hex: string, alpha: string = "30"): string {
   return `${hex}${alpha}`;
 }
+
+export function darkenColor(hex: string, amount: number = 0.15): string {
+  const num = parseInt(hex.replace("#", ""), 16);
+  const r = Math.max(0, Math.round(((num >> 16) & 0xff) * (1 - amount)));
+  const g = Math.max(0, Math.round(((num >> 8) & 0xff) * (1 - amount)));
+  const b = Math.max(0, Math.round((num & 0xff) * (1 - amount)));
+  return `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)}`;
+}
