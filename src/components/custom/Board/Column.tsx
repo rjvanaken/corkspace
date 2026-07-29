@@ -10,8 +10,8 @@ export default function Column({ label, status, tasks, onEditTask, onDeleteTask,
   const countForColumn = tasks.filter((t) => t.status === status).length;
   
   const [isScrolled, setIsScrolled] = useState(false);
-  const { setNodeRef, isOver } = useDroppable({ id: status });
-  
+  const { setNodeRef} = useDroppable({ id: status });
+
   const columnHex = Columns.find((c) => c.id === status)?.hex ?? "#000000";
 
   function handleScroll(e: React.UIEvent<HTMLDivElement>) {

@@ -1,5 +1,4 @@
 import { MainHeader } from "@/components/custom/Header/MainHeader";
-import Toolbar from "@/components/custom/Header/Toolbar";
 import Board from "./components/custom/Board";
 import { useEffect, useState } from "react";
 import TaskModal from "./components/custom/Board/TaskModal";
