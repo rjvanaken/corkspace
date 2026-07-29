@@ -12,7 +12,7 @@ export default function Priority({ priority }: PriorityProps) {
 
   return (
     <Badge variant="default" className="bg-card pl-0 gap-2 items-center">
-      <Circle size={10} color={match?.hex} fill={match?.hex} strokeWidth={0} className="items-center m-0" ></Circle>
+      <Circle size={11} color={match?.hex} fill={match?.hex} strokeWidth={0} className="items-center text-center m-0" ></Circle>
       <span className="text-sm font-medium items-center text-muted-foreground">{match?.label}</span>
     </Badge>
   );

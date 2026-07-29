@@ -32,6 +32,7 @@
     --destructive: #C4503F;
     --destructive-foreground: #FFFFFF;
     --border: rgb(212, 217, 209);
+    --header: rgb(132, 221, 77);
     --input-border: rgb(127, 224, 67);
     --input-background: #FFFFFF;
     --placeholder: #737373;
@@ -89,5 +90,9 @@
 
   html {
     @apply font-sans;
+  }
+
+  .header-search-input::placeholder {
+    color: var(--header-search-placeholder);
   }
 }

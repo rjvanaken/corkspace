@@ -134,9 +134,9 @@ export default function TaskCard({
       <CardDescription style={{ fontSize: "13px", fontWeight: 400 }} className=" w-full items-start">{description}</CardDescription>
           <div className="flex flex-row flex-wrap pb-1 gap-1.5">
                       {matchedLabels.map((label) => (
-                        <CardLabel 
+                        <CardLabel
                         key={label.id}
-                        labelText={label.name} 
+                        labelText={label.name}
                         colorLabel={label.color}>
                         </CardLabel>
                       ))}
