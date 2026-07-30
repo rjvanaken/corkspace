@@ -1,19 +1,17 @@
 import TaskCard from "@/components/custom/Board/TaskCard";
 import { useState } from "react";
 import { useDroppable } from "@dnd-kit/core";
-import { Columns, ColumnEmptyMessages, type ColumnId } from "@/lib/constants";
+import { ColumnEmptyMessages, type ColumnId } from "@/lib/constants";
 import { Plus } from "lucide-react";
 
-// inside Column, using status to find the matching column's hex
+const COLUMN_BORDER_COLOR = "#7C8B90";
 
 export default function Column({ label, status, tasks, onEditTask, onDeleteTask, onAddTask, userLabels, isSearching}: { label: string; status: ColumnId; tasks: any[]; onEditTask: (task: any) => void; onDeleteTask: (task: any) => void; onAddTask: (status: string) => void; userLabels : any[]; isSearching: boolean}) {
   const tasksInThisColumn = tasks.filter((t) => t.status === status);
   const countForColumn = tasks.filter((t) => t.status === status).length;
-  
+
   const [isScrolled, setIsScrolled] = useState(false);
   const { setNodeRef} = useDroppable({ id: status });
-
-  const columnHex = Columns.find((c) => c.id === status)?.hex ?? "#000000";
 
   function handleScroll(e: React.UIEvent<HTMLDivElement>) {
     setIsScrolled(e.currentTarget.scrollTop > 0);
@@ -24,7 +22,7 @@ export default function Column({ label, status, tasks, onEditTask, onDeleteTask,
   ref={setNodeRef}
   className="flex-1 max-w-[1500px] min-w-[100px] basis-0 flex flex-col h-full bg-card border-t-0 border-l ring-1border-r border-b shadow rounded-lg"
     >
-      <div style={{ borderColor: columnHex}}
+      <div style={{ borderColor: COLUMN_BORDER_COLOR}}
       className="p-0 m-0 border-t-4 rounded-lg">
       <div className={`flex items-center gap-3 px-6 py-6 shrink-0 ${isScrolled ? "border-b border-border" : ""}`}>
         <span className="flex-1 text-xl font-bold text-foreground">{label}</span>       
