@@ -31,20 +31,13 @@ Live demo: https://corkspace-one.vercel.app
 - npm (ships with Node)
 - A [Supabase](https://supabase.com/) account (free tier is fine)
 
-### 1. Clone the repo
-
-```bash
-git clone https://github.com/rjvanaken/corkspace.git
-cd corkspace
-```
-
-### 2. Install dependencies
+### 1. Install dependencies
 
 ```bash
 npm install
 ```
 
-### 3. Set up Supabase
+### 2. Set up Supabase
 
 Corkspace expects three tables in your Supabase project:
 
@@ -54,10 +47,9 @@ Corkspace expects three tables in your Supabase project:
 
 The app signs users in anonymously via Supabase Auth on first load (`supabase.auth.signInAnonymously()`), so make sure **Anonymous sign-ins** are enabled in your project's Auth settings, and that Row Level Security policies allow each user to read/write their own rows.
 
+### 3. Configure environment variables
 
-### 4. Configure environment variables
-
-Create (or edit) `.env.local` in the project root:
+Create `.env.local` in the project root:
 
 ```
 VITE_SUPABASE_URL=your-supabase-project-url
@@ -66,7 +58,7 @@ VITE_SUPABASE_ANON_KEY=your-supabase-anon-key
 
 Both values are available in your Supabase project under **Project Settings → API**.
 
-### 5. Run the dev server
+### 4. Run the dev server
 
 ```bash
 npm run dev
